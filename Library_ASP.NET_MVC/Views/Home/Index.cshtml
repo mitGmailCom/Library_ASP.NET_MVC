@@ -1,21 +1,179 @@
 ﻿@using Library_ASP.NET_MVC.Models
-@model IEnumerable<Author>
+@*@model IEnumerable<Author>*@
+@if (Model is IEnumerable<Author>)
+{
+    @model IEnumerable<Author>
+}
+
 
 @{
     Layout = null;
 }
 
-<!DOCTYPE html>
+<style>
+    table {
+        width: 100%;
+    }
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <div> 
-        @Html.ShowListCollectionLibrary(Model);
+    td {
+        width: 48%;
+    }
+
+        td:nth-child(2n) {
+            margin: 2%;
+        }
+
+    .authors {
+        width: 100%;
+    }
+
+    .list-books {
+        width: 100%;
+    }
+
+    .head-tr {
+        text-align:center;
+    }
+
+    .info-book {
+        padding-left: 20px;
+    }
+</style>
+
+
+
+@*<!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Index</title>
+    </head>*@
+@*<body>*@
+
+@*@using (Html.BeginForm())*@
+@using (Html.BeginForm())
+{
+    <div>
+        @if (TempData["Book"] != null)
+        {
+            @Html.Hidden("hidden", (TempData["Book"] as Book).Id)
+        }
+        <table class="">
+            <tr>
+                <td>
+                    <div class="head-tr">
+                        @Html.Label("Список авторов:")
+                    </div>
+                </td>
+                <td>
+                    <div class="head-tr">
+                        @Html.Label("Информация по книге")
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class=".authors">
+                        @*@Html.ShowListCollectionLibrary(Model)*@
+                        @Html.DropDownList("drdowmlist", new SelectList(Model, "Name", "Name", 0), new { @class = "authors" })
+                    </div>
+                </td>
+                <td rowspan="2">
+                    <div class="info-book">
+                        @Html.Label("Название книги: ")
+                        @if (TempData["Book"] != null)
+                        {
+                            @Html.Label("txbName", (TempData["Book"] as Book).Name)
+                        }
+                        @if (TempData["Book"] == null)
+                        {
+                            @Html.Label("txbName", "-")
+                        }
+                        <br />
+                        @Html.Label("Название Издателя: ")
+                        @if (TempData["Book"] != null)
+                        {
+                            @Html.Label("txbPublisher", (TempData["Book"] as Book).Publisher.Name)
+                        }
+                        @if (TempData["Book"] == null)
+                        {
+                            @Html.Label("Publisher", "-")
+                        }
+
+                        <br />
+                        @Html.Label("Авторы: ")
+                        @if (TempData["Book"] != null)
+                        {
+                            @Html.Label("txbAuthors", (TempData["Book"] as Book).Authors.ToString())
+                        }
+                        @if (TempData["Book"] == null)
+                        {
+                            @Html.Label("Authors", "-")
+                        }
+
+                        <br />
+                        @Html.Label("Дата публикации: ")
+                        @if (TempData["Book"] != null)
+                        {
+                            @Html.Label("txbPublishDate", (TempData["Book"] as Book).PublishDate.Year.ToString())
+                        }
+                        @if (TempData["Book"] == null)
+                        {
+                            @Html.Label("PublishDate", "-")
+                        }
+
+                        <br />
+                        @Html.Label("Количество страниц: ")
+                        @if (TempData["Book"] != null)
+                        {
+                            @Html.Label("txbPageCount", (TempData["Book"] as Book).PageCount.ToString())
+                        }
+                        @if (TempData["Book"] == null)
+                        {
+                            @Html.Label("PageCount", "-")
+                        }
+
+                        <br />
+                        @Html.Label("ISBN: ")
+                        @if (TempData["Book"] != null)
+                        {
+                            @Html.Label("txbISBN", (TempData["Book"] as Book).ISBN)
+                        }
+                        @if (TempData["Book"] == null)
+                        {
+                            @Html.Label("ISBN", "-")
+                        }
+
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div>
+                        @if (TempData["listBooks"] != null)
+                        {
+                            @Html.ListBox("listBoxBooks", TempData["listBooks"] as SelectList, new { @class = "list-books" })
+
+                        }
+                        @if (TempData["listBooks"] == null)
+                        {
+                            @Html.ListBox("listBoxBooks", new SelectList(new[] { "" }))
+                        }
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+
+        <input type="submit" id="btnBooks" name="Books" value="Показать книги" />
+        <input type="submit" id="btnBookInfo" name="BookInfo" value="Подробней о книге" />
+        <input type="submit" id="btnManager" name="Manager" value="Перейти к редактированию" />
+
 
     </div>
-</body>
-</html>
+
+}
+@*</body>*@
+@*</html>*@

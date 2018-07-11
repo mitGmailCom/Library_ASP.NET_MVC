@@ -1,0 +1,27 @@
+﻿@using Library_ASP.NET_MVC.Models
+@model List<Author>
+@{
+    Layout = null;
+}
+
+
+<div>
+    <a href="/Home/Index">Home</a>
+    <br />
+    <a href="/AuthorManager/Create">Add Author</a>
+    <br />
+</div>
+
+@using (Html.BeginForm("ManagerGeneral", "AuthorManager", FormMethod.Post))
+{
+
+    <ol>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+             <li>@Html.RadioButton($"Author", $"{Model[i].Name}", new { id = $"Is{Model[i].Name}" }) @Model[i].Name </li>
+        }
+
+    </ol>
+    <input type="submit" name="EditeAuthor" value="EditeAuthor" />
+    <input type="submit" name="DeleteAuthor" value="DeleteAuthor" />
+}

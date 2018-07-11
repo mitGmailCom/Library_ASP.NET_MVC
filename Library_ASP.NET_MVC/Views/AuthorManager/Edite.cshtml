@@ -1,0 +1,57 @@
+﻿@using Library_ASP.NET_MVC.Models
+@model Library_ASP.NET_MVC.Models.Author
+@{
+    Layout = null;
+}
+
+
+@Html.BeginForm("Edite", "AuthorManager", FormMethod.Post)
+{
+<table>
+    <tr>
+        <td>
+            <div class="dataElem">
+                <label>ФИО Автора:</label>
+            </div>
+
+        </td>
+        <td>
+            <div class="editor-field">
+                @Html.TextBoxFor(u => u.Name)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="dataElem">
+                <label>Дата рождения:</label>
+            </div>
+
+        </td>
+        <td>
+            <div class="editor-field">
+                @Html.TextBoxFor(u => u.DateOfBirth)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="dataElem">
+                <label>Дата Смерти(оставить пустой, если живой):</label>
+            </div>
+
+        </td>
+        <td>
+            <div class="editor-field">
+                @Html.TextBoxFor(u => u.DateOfDeath)
+            </div>
+        </td>
+    </tr>
+
+</table>
+<br />
+<input type="submit" />
+}
+

@@ -1,0 +1,28 @@
+﻿@using Library_ASP.NET_MVC.Models
+@model List<Publisher>
+@{
+    Layout = null;
+}
+
+
+<div>
+    <a href="/Home/Index">Home</a>
+    <br />
+    <a href="/PublisherManager/Create">Add Publisher</a>
+    <br />
+</div>
+
+@using (Html.BeginForm("ManagerGeneral", "PublisherManager", FormMethod.Post))
+{
+
+    <ol>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <li>@Html.RadioButton($"Publisher", $"{Model[i].Name}", new { id = $"Is{Model[i].Name}" }) @Model[i].Name </li>
+        }
+
+    </ol>
+    <input type="submit" name="EditePublisher" value="EditePublisher" />
+    <input type="submit" name="DeletePublisher" value="DeletePublisher" />
+}
+

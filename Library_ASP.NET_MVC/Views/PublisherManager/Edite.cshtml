@@ -1,0 +1,29 @@
+﻿@using Library_ASP.NET_MVC.Models
+@model Library_ASP.NET_MVC.Models.Publisher
+@{
+    Layout = null;
+}
+
+
+@Html.BeginForm("Edite", "PublisherManager", FormMethod.Post)
+{
+<table>
+    <tr>
+        <td>
+            <div class="dataElem">
+                <label>Название издательства:</label>
+            </div>
+
+        </td>
+        <td>
+            <div class="editor-field">
+                @Html.TextBoxFor(u => u.Name)
+            </div>
+        </td>
+    </tr>
+
+</table>
+<br />
+<input type="submit" />
+}
+

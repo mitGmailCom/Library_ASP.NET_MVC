@@ -5,12 +5,12 @@ using System.Web;
 
 namespace Library_ASP.NET_MVC.Models
 {
-    public class BookReposirory : IPublisherRepository<Book>
+    public class BookRepository : IPublisherRepository<Book>
     {
         private static List<Book> Books = new List<Book>();
 
-        private static BookReposirory _instance;
-        public static BookReposirory Instance => _instance ?? (_instance = new BookReposirory());
+        private static BookRepository _instance;
+        public static BookRepository Instance => _instance ?? (_instance = new BookRepository());
 
         public List<Book> ListBooks
         {
@@ -59,10 +59,7 @@ namespace Library_ASP.NET_MVC.Models
         public void Edite(Book item, int index)
         {
             if (item != null)
-            {
-                if (item.Id != null)
-                    Books[item.Id] = item;
-            }
+                Books[item.Id] = item;
         }
 
 

@@ -122,14 +122,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AuthorManagerController.cs" />
+    <Compile Include="Controllers\BookManagerController.cs" />
+    <Compile Include="Controllers\GeneralEditController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PublisherManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\AuthorRepository.cs" />
     <Compile Include="Models\Book.cs" />
-    <Compile Include="Models\BookReposirory.cs" />
+    <Compile Include="Models\BookRepository.cs" />
     <Compile Include="Models\HelperUsers.cs" />
     <Compile Include="Models\IPublisherRepository.cs" />
     <Compile Include="Models\Publisher.cs" />
@@ -143,6 +147,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\GeneralEdit\Index.cshtml" />
+    <Content Include="Views\AuthorManager\Index.cshtml" />
+    <Content Include="Views\AuthorManager\Create.cshtml" />
+    <Content Include="Views\AuthorManager\Edite.cshtml" />
+    <Content Include="Views\PublisherManager\Edite.cshtml" />
+    <Content Include="Views\PublisherManager\Create.cshtml" />
+    <Content Include="Views\PublisherManager\Index.cshtml" />
+    <Content Include="Views\BookManager\Index.cshtml" />
+    <Content Include="Views\BookManager\Edite.cshtml" />
+    <Content Include="Views\BookManager\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

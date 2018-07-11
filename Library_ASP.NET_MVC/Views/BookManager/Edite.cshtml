@@ -1,0 +1,100 @@
+﻿@using Library_ASP.NET_MVC.Models
+@model Library_ASP.NET_MVC.Models.Book
+
+@{
+    Layout = null;
+}
+
+@Html.BeginForm("Edite", "BookManager", FormMethod.Post)
+{
+
+<table>
+    <tr>
+        <td>
+            <div class="dataElem">
+                <label>Название книги:</label>
+            </div>
+
+        </td>
+        <td>
+            <div class="editor-field">
+                @Html.TextBoxFor(u => u.Name)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="dataElem">
+                <label>Издательство:</label>
+            </div>
+
+        </td>
+        <td>
+            <div class="editor-field">
+                @Html.DropDownList("drDwnListPublisher", (SelectList)ViewBag.Publisher)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="dataElem">
+                <label>Автор:</label>
+            </div>
+
+        </td>
+        <td>
+            <div class="editor-field">
+                @Html.ListBox("listBoxAuthors", (MultiSelectList)ViewBag.Authors)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="dataElem">
+                <label>Дата публикации:</label>
+            </div>
+
+        </td>
+        <td>
+            <div class="editor-field">
+                @Html.TextBoxFor(u => u.PublishDate)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="dataElem">
+                <label>Количество страниц:</label>
+            </div>
+
+        </td>
+        <td>
+            <div class="editor-field">
+                @Html.TextBoxFor(u => u.PageCount)
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div class="dataElem">
+                <label>ISBN:</label>
+            </div>
+
+        </td>
+        <td>
+            <div class="editor-field">
+                @Html.TextBoxFor(u => u.ISBN)
+            </div>
+        </td>
+    </tr>
+
+</table>
+<br />
+<input type="submit" />
+}
+

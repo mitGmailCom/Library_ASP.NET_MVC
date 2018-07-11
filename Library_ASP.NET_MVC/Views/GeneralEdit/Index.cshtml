@@ -1,0 +1,24 @@
+﻿
+@{
+    Layout = null;
+}
+
+<style>
+    .radioBtn {
+        text-align:center;
+    }
+
+</style>
+
+@using (Html.BeginForm())
+{
+    <div class="radioBtn">
+        @foreach (var item in ViewBag.ListItemToManage as List<string>)
+        {
+            @Html.RadioButton($"{item}", $"{item}",  new { id = $"Is{item}" })
+            @Html.Label($"{item}")
+            <br />
+        }
+    </div>
+    <input type="submit" value="To Manager" />
+}
