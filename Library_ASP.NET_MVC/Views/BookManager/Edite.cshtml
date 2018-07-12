@@ -8,6 +8,7 @@
 @Html.BeginForm("Edite", "BookManager", FormMethod.Post)
 {
 
+@Html.HiddenFor(u => u.Id)
 <table>
     <tr>
         <td>
@@ -32,7 +33,7 @@
         </td>
         <td>
             <div class="editor-field">
-                @Html.DropDownList("drDwnListPublisher", (SelectList)ViewBag.Publisher)
+                @Html.DropDownListFor(u => u.Publisher, ViewBag.Publisher as List<SelectListItem>)
             </div>
         </td>
     </tr>
@@ -46,7 +47,8 @@
         </td>
         <td>
             <div class="editor-field">
-                @Html.ListBox("listBoxAuthors", (MultiSelectList)ViewBag.Authors)
+                @*@Html.ListBoxFor(u => u.Authors, (ViewBag.Authors as MultiSelectList) )*@
+                @Html.ListBoxFor(u => u.Authors, new MultiSelectList(ViewBag.Authors as List<SelectListItem>, "Value", "Text", ViewBag.Selected as string[]))
             </div>
         </td>
     </tr>

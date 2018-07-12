@@ -175,6 +175,8 @@ namespace Library_ASP.NET_MVC.Controllers
                 return RedirectToAction("Delete", TempData["From"] as string);
             if ((TempData["Flag"] as string) == "CreateFormcollection")
                 return RedirectToAction("CreateFormcollection", TempData["From"] as string);
+            if ((TempData["Flag"] as string) == "EditeFormcollection")
+                return RedirectToAction("EditeFormcollection", TempData["From"] as string);
 
             return View(authorRepository.GetAll());
         }

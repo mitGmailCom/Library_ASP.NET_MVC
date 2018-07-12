@@ -96,13 +96,23 @@ namespace Library_ASP.NET_MVC.Controllers
             if (newPublish != null)
             {
                 (TempData["PublisherRepository"] as PublisherRepository).Edite(newPublish, index);
+                for (int i = 0; i < (TempData["BookRepository"] as BookRepository).ListBooks.Count; i++)
+                {
+                    if (((TempData["BookRepository"] as BookRepository).ListBooks[i].Publisher as Publisher) != null)
+                    {
+                        if (((TempData["BookRepository"] as BookRepository).ListBooks[i].Publisher as Publisher).Name == Name)
+                            (TempData["BookRepository"] as BookRepository).ListBooks[i].Publisher.Name = newPublish.Name;
+                    }
+
+                }
                 index = -1;
+                Name = null;
                 return RedirectToAction("Index");
             }
 
             if (TempData["PublisherRepository"] != null)
             {
-                
+
                 var existingUser = (TempData["PublisherRepository"] as PublisherRepository).Get(Name);
 
                 if (existingUser == null)
@@ -116,8 +126,6 @@ namespace Library_ASP.NET_MVC.Controllers
                     if (ListPublishers[i].Name == existingUser.Name)
                         index = i;
                 }
-
-                Name = null;
                 return View(existingUser);
             }
             return RedirectToAction("Index", new { controller = "PublisherManager" });
@@ -148,6 +156,11 @@ namespace Library_ASP.NET_MVC.Controllers
             if (Name != null)
             {
                 bool res = (TempData["PublisherRepository"] as PublisherRepository).Delete(Name);
+                for (int i = 0; i < (TempData["BookRepository"] as BookRepository).ListBooks.Count; i++)
+                {
+                    if (((TempData["BookRepository"] as BookRepository).ListBooks[i].Publisher as Publisher).Name == Name)
+                        (TempData["BookRepository"] as BookRepository).ListBooks[i].Publisher = null;
+                }
                 TempData["ResForDel"] = res;
                 Name = null;
                 return RedirectToAction("Index");

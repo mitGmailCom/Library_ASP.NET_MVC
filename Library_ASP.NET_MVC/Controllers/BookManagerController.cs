@@ -70,7 +70,7 @@ namespace Library_ASP.NET_MVC.Controllers
                 //SelectList tempSList = new SelectList((TempData["PublisherRepository"] as PublisherRepository).ListPublishers);
                 //ViewBag.Publisher = tempSList;
             }
-            
+
             if (TempData["AuthorRepository"] != null)
             {
                 List<SelectListItem> tempMList = new List<SelectListItem>();
@@ -140,6 +140,8 @@ namespace Library_ASP.NET_MVC.Controllers
         }
 
 
+
+
         [HttpPost]
         public ActionResult Create(FormCollection formcollection)
         {
@@ -151,53 +153,9 @@ namespace Library_ASP.NET_MVC.Controllers
                 return RedirectToAction("FromAuthorManager", new { controller = "Home" });
             }
 
-
-            //Publisher tempPublisher = new Publisher();
-            //List<Author> TempListAuthors = new List<Author>();
-            //string MasAuthors = formcollection["Authors"] as string;
-            //string[] separators = { "," };
-            //string[]ResMasAuthors = MasAuthors.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-
-            //BookCreate.Name = formcollection["Name"];
-            //string selectedPublisher = formcollection["Publisher"];
-            //if (TempData["PublisherRepository"] != null)
-            //{
-            //    for (int i = 0; i < (TempData["PublisherRepository"] as PublisherRepository).ListPublishers.Count; i++)
-            //    {
-            //        if ((TempData["PublisherRepository"] as PublisherRepository).ListPublishers[i].Name == selectedPublisher)
-            //            tempPublisher = (TempData["PublisherRepository"] as PublisherRepository).ListPublishers[i];
-            //    }
-            //}
-
-            //if (TempData["AuthorRepository"] != null)
-            //{
-            //    for (int i = 0; i < (TempData["AuthorRepository"] as AuthorRepository).ListAuthors.Count; i++)
-            //    {
-            //        for (int j = 0; j < ResMasAuthors.Length; j++)
-            //        {
-            //            if ((TempData["AuthorRepository"] as AuthorRepository).ListAuthors[i].Name == ResMasAuthors[j])
-            //                TempListAuthors.Add((TempData["AuthorRepository"] as AuthorRepository).ListAuthors[i]);
-            //        }
-            //    }
-            //}
-            //DateTime res;
-            //bool isDateTime = DateTime.TryParse(formcollection["PublishDate"], out res);
-            //if (isDateTime)
-            //    BookCreate.PublishDate = Convert.ToDateTime((formcollection["PublishDate"]) as string);
-
-            //int resPage;
-            //bool isInt = Int32.TryParse(formcollection["PageCount"], out resPage);
-            //if (isInt)
-            //    BookCreate.PageCount = Convert.ToInt32((formcollection["PageCount"]) as string);
-
-            //BookCreate.ISBN = formcollection["ISBN"];
-
-
-            ////newBook = _book;
-            //TempData["Flag"] = "Create";
-            //TempData["From"] = "BookManager";
             return RedirectToAction("FromAuthorManager", new { controller = "Home" });
         }
+
 
 
 
@@ -205,18 +163,22 @@ namespace Library_ASP.NET_MVC.Controllers
         public ActionResult ManagerGeneral(FormCollection formcollection)
         {
             newBook = null;
-
             if (formcollection["EditeBook"] != null)
             {
+                //newBook = new Book();
                 if (Id == -1)
                 {
                     int tempId;
-                    bool isInt = Int32.TryParse(formcollection["PageCount"], out tempId);
+                    bool isInt = Int32.TryParse(formcollection["Book"], out tempId);
                     if (isInt)
-                        BookCreate.PageCount = Convert.ToInt32((formcollection["PageCount"]) as string);
+                        //newBook.Id = tempId;
                     Id = tempId;
                 }
+                else
+                    return RedirectToAction("Index", new { controller = "BookManager" });
+
                 TempData["Flag"] = "Edite";
+                TempData["From"] = "BookManager";
 
                 if (TempData["BookRepository"] == null)
                 {
@@ -226,15 +188,17 @@ namespace Library_ASP.NET_MVC.Controllers
 
             if (formcollection["DeleteBook"] != null)
             {
+                //newBook = new Book();
                 if (Id == -1)
                 {
                     int tempId;
-                    bool isInt = Int32.TryParse(formcollection["PageCount"], out tempId);
+                    bool isInt = Int32.TryParse(formcollection["Book"], out tempId);
                     if (isInt)
-                        BookCreate.PageCount = Convert.ToInt32((formcollection["PageCount"]) as string);
+                        //newBook.Id = tempId;
                     Id = tempId;
                 }
                 TempData["Flag"] = "Delete";
+                TempData["From"] = "BookManager";
 
                 if (TempData["BookRepository"] == null)
                 {
@@ -257,23 +221,96 @@ namespace Library_ASP.NET_MVC.Controllers
                 return RedirectToAction("Index");
             }
 
-
             if (TempData["BookRepository"] != null)
             {
                 var existingUser = (TempData["BookRepository"] as BookRepository).Get(Id);
-                for (int i = 0; i < ListBooks.Count; i++)
-                {
-                    if (ListBooks[i].Id == existingUser.Id)
-                        index = i;
-                }
-
                 if (existingUser == null)
                 {
                     Id = -1;
                     return RedirectToAction("Index");
                 }
 
+                for (int i = 0; i < ListBooks.Count; i++)
+                {
+                    if (ListBooks[i].Id == existingUser.Id)
+                        index = i;
+                }
                 Id = -1;
+
+                if (TempData["PublisherRepository"] != null)
+                {
+                    bool isSelected = false;
+                    List<SelectListItem> tempSList = new List<SelectListItem>();
+                    for (int i = 0; i < (TempData["PublisherRepository"] as PublisherRepository).ListPublishers.Count; i++)
+                    {
+                        if (existingUser.Publisher.Name == (TempData["PublisherRepository"] as PublisherRepository).ListPublishers[i].Name)
+                            isSelected = true;
+                        if (!isSelected)
+                        {
+                            tempSList.Add(new SelectListItem
+                            {
+                                Text = (TempData["PublisherRepository"] as PublisherRepository).ListPublishers[i].Name,
+                                Value = (TempData["PublisherRepository"] as PublisherRepository).ListPublishers[i].Name,
+                            });
+                        }
+                        if (isSelected)
+                        {
+                            tempSList.Add(new SelectListItem
+                            {
+                                Text = (TempData["PublisherRepository"] as PublisherRepository).ListPublishers[i].Name,
+                                Value = (TempData["PublisherRepository"] as PublisherRepository).ListPublishers[i].Name,
+                                Selected = true
+                            });
+                            isSelected = false;
+                        }
+                    }
+                    ViewBag.Publisher = tempSList;
+                }
+
+                if (TempData["AuthorRepository"] != null)
+                {
+                    bool isSelected = false;
+                    List<string> selecList = new List<string>();
+                    List<SelectListItem> tempMList = new List<SelectListItem>();
+                    for (int i = 0; i < (TempData["AuthorRepository"] as AuthorRepository).ListAuthors.Count; i++)
+                    {
+                        if ((existingUser.Authors as List<Author>).Count != 0)
+                        {
+                            for (int j = 0; j < (existingUser.Authors as List<Author>).Count; j++)
+                            {
+                                if ((existingUser.Authors as List<Author>)[j].Name == (TempData["AuthorRepository"] as AuthorRepository).ListAuthors[i].Name)
+                                    isSelected = true;
+                                if (!isSelected)
+                                {
+                                    if (j == (existingUser.Authors as List<Author>).Count - 1)
+                                    {
+                                        tempMList.Add(new SelectListItem
+                                        {
+                                            Text = (TempData["AuthorRepository"] as AuthorRepository).ListAuthors[i].Name,
+                                            Value = (TempData["AuthorRepository"] as AuthorRepository).ListAuthors[i].Name
+                                        });
+                                    }
+                                }
+                                if (isSelected)
+                                {
+                                    selecList.Add(i.ToString());
+                                    tempMList.Add(new SelectListItem
+                                    {
+                                        Text = (TempData["AuthorRepository"] as AuthorRepository).ListAuthors[i].Name,
+                                        Value = (TempData["AuthorRepository"] as AuthorRepository).ListAuthors[i].Name,
+                                        Selected = true
+                                    });
+                                    isSelected = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    string[] defaultSelected = selecList.ToArray();
+                    //ViewBag.Authors = new MultiSelectList(tempMList, "Value", "Text", defaultSelected) ;
+                    ViewBag.Authors = tempMList;
+                    ViewBag.Selected = defaultSelected;
+                }
                 return View(existingUser);
             }
             return RedirectToAction("Index", new { controller = "BookManager" });
@@ -281,18 +318,23 @@ namespace Library_ASP.NET_MVC.Controllers
 
 
 
-        [HttpPost]
-        public ActionResult Edite(FormCollection formcollection, string[] list2)
+
+
+        [HttpGet]
+        public ActionResult EditeFormcollection(FormCollection formcollection)
         {
             if (newBook == null)
             {
                 if (formcollection != null)
                 {
+                    newBook = new Book();
                     Publisher tempPublisher = new Publisher();
                     List<Author> TempListAuthors = new List<Author>();
-
-                    newBook.Name = formcollection["Name"];
-                    string selectedPublisher = formcollection["drDwnListPublisher"];
+                    string MasAuthors = Copyformcollection["Authors"] as string;
+                    string[] separators = { "," };
+                    string[] ResMasAuthors = MasAuthors.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                    newBook.Name = Copyformcollection["Name"];
+                    string selectedPublisher = Copyformcollection["Publisher"];
                     if (TempData["PublisherRepository"] != null)
                     {
                         for (int i = 0; i < (TempData["PublisherRepository"] as PublisherRepository).ListPublishers.Count; i++)
@@ -302,36 +344,31 @@ namespace Library_ASP.NET_MVC.Controllers
                         }
                         newBook.Publisher = tempPublisher;
                     }
-
                     if (TempData["AuthorRepository"] != null)
                     {
                         for (int i = 0; i < (TempData["AuthorRepository"] as AuthorRepository).ListAuthors.Count; i++)
                         {
-                            for (int j = 0; j < list2.Length; j++)
+                            for (int j = 0; j < ResMasAuthors.Length; j++)
                             {
-                                if ((TempData["AuthorRepository"] as AuthorRepository).ListAuthors[i].Name == list2[j])
+                                if ((TempData["AuthorRepository"] as AuthorRepository).ListAuthors[i].Name == ResMasAuthors[j])
                                     TempListAuthors.Add((TempData["AuthorRepository"] as AuthorRepository).ListAuthors[i]);
                             }
                         }
                         newBook.Authors = TempListAuthors.ToList();
                     }
                     DateTime res;
-                    bool isDateTime = DateTime.TryParse(formcollection["PublishDate"], out res);
+                    bool isDateTime = DateTime.TryParse(Copyformcollection["PublishDate"], out res);
                     if (isDateTime)
-                        newBook.PublishDate = Convert.ToDateTime((formcollection["PublishDate"]) as string);
-
+                        newBook.PublishDate = Convert.ToDateTime((Copyformcollection["PublishDate"]) as string);
                     int resPage;
-                    bool isInt = Int32.TryParse(formcollection["PageCount"], out resPage);
+                    bool isInt = Int32.TryParse(Copyformcollection["PageCount"], out resPage);
                     if (isInt)
-                        newBook.PageCount = Convert.ToInt32((formcollection["PageCount"]) as string);
-
-                    newBook.ISBN = formcollection["ISBN"];
-
+                        newBook.PageCount = resPage;
+                    newBook.ISBN = Copyformcollection["ISBN"];
                     int resId;
-                    bool isID = Int32.TryParse(formcollection["Id"], out resId);
-                    if (isID)
-                        newBook.Id = Convert.ToInt32((formcollection["Id"]) as string);
-
+                    bool isIntID = Int32.TryParse(Copyformcollection["Id"], out resId);
+                    if (isIntID)
+                        newBook.Id = resId;
 
                     TempData["Flag"] = "Edite";
                     TempData["From"] = "BookManager";
@@ -339,6 +376,24 @@ namespace Library_ASP.NET_MVC.Controllers
                 }
             }
             return RedirectToAction("Index");
+        }
+
+
+
+
+
+        [HttpPost]
+        public ActionResult Edite(FormCollection formcollection)
+        {
+            if (TempData["PublisherRepository"] == null)
+            {
+                Copyformcollection.Clear();
+                Copyformcollection = formcollection;
+                TempData["Flag"] = "EditeFormcollection";
+                TempData["From"] = "BookManager";
+                return RedirectToAction("FromAuthorManager", new { controller = "Home" });
+            }
+            return RedirectToAction("FromAuthorManager", new { controller = "Home" });
         }
 
 

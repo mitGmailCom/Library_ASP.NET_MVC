@@ -94,7 +94,14 @@
                         @Html.Label("Название Издателя: ")
                         @if (TempData["Book"] != null)
                         {
-                            @Html.Label("txbPublisher", (TempData["Book"] as Book).Publisher.Name)
+                            if ((TempData["Book"] as Book).Publisher != null)
+                            {
+                                @Html.Label("txbPublisher", (TempData["Book"] as Book).Publisher.Name)
+                            }
+                            else
+                            {
+                                @Html.Label("txbPublisher", "Издательство книги не известно")
+                            }
                         }
                         @if (TempData["Book"] == null)
                         {
@@ -105,7 +112,14 @@
                         @Html.Label("Авторы: ")
                         @if (TempData["Book"] != null)
                         {
-                            @Html.Label("txbAuthors", (TempData["Book"] as Book).Authors.ToString())
+                            if (((TempData["Book"] as Book).Authors as List<Author>).Count > 0)
+                            {
+                                @Html.Label("txbAuthors", String.Join(", ", ((TempData["Book"] as Book).Authors as List<Author>).Select(x => x.Name.ToString())))
+                            }
+                            else
+                            {
+                                @Html.Label("txbAuthors", "У книги нет авторов")
+                            }
                         }
                         @if (TempData["Book"] == null)
                         {
