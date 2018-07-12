@@ -5,7 +5,7 @@
     Layout = null;
 }
 
-@Html.BeginForm("Edite", "BookManager", FormMethod.Post)
+@using (Html.BeginForm("Edite", "BookManager", FormMethod.Post))
 {
 
 @Html.HiddenFor(u => u.Id)

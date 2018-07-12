@@ -5,7 +5,7 @@
 
 <style>
     .radioBtn {
-        text-align:center;
+        text-align:left;
     }
 
 </style>
@@ -15,7 +15,7 @@
     <div class="radioBtn">
         @foreach (var item in ViewBag.ListItemToManage as List<string>)
         {
-            @Html.RadioButton($"{item}", $"{item}",  new { id = $"Is{item}" })
+            @Html.RadioButton($"{item}", $"{item}",  new { id = $"Is{item}" } )
             @Html.Label($"{item}")
             <br />
         }

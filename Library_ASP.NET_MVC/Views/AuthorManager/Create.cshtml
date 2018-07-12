@@ -1,74 +1,55 @@
-﻿
-@model Library_ASP.NET_MVC.Models.Author
+﻿@model Library_ASP.NET_MVC.Models.Author
 
 @{
     Layout = null;
 }
 
-@Html.BeginForm("Create", "AuthorManager", FormMethod.Post)
+@using (Html.BeginForm("Create", "AuthorManager", FormMethod.Post))
 {
-<table>
-    <tr>
-        <td>
-            <div class="dataElem">
-                <label>ФИО Автора:</label>
-            </div>
+    <table>
+        <tr>
+            <td>
+                <div class="dataElem">
+                    <label>ФИО Автора:</label>
+                </div>
 
-        </td>
-        <td>
-            <div class="editor-field">
-                @Html.TextBoxFor(u => u.Name)
-            </div>
-        </td>
-    </tr>
+            </td>
+            <td>
+                <div class="editor-field">
+                    @Html.TextBoxFor(u => u.Name)
+                </div>
+            </td>
+        </tr>
 
-    <tr>
-        <td>
-            <div class="dataElem">
-                <label>Дата рождения:</label>
-            </div>
+        <tr>
+            <td>
+                <div class="dataElem">
+                    <label>Дата рождения:</label>
+                </div>
 
-        </td>
-        <td>
-            <div class="editor-field">
-                @Html.TextBoxFor(u => u.DateOfBirth)
-            </div>
-        </td>
-    </tr>
+            </td>
+            <td>
+                <div class="editor-field">
+                    @Html.TextBoxFor(u => u.DateOfBirth)
+                </div>
+            </td>
+        </tr>
 
-    <tr>
-        <td>
-            <div class="dataElem">
-                <label>Дата Смерти(оставить пустой, если живой):</label>
-            </div>
+        <tr>
+            <td>
+                <div class="dataElem">
+                    <label>Дата Смерти(оставить пустой, если живой):</label>
+                </div>
 
-        </td>
-        <td>
-            <div class="editor-field">
-                @Html.TextBoxFor(u => u.DateOfDeath)
-            </div>
-        </td>
-    </tr>
+            </td>
+            <td>
+                <div class="editor-field">
+                    @Html.TextBoxFor(u => u.DateOfDeath)
+                </div>
+            </td>
+        </tr>
 
-</table>
+    </table>
 <br />
 <input type="submit" />
 }
-
-
-
-
-
-
-@*<!DOCTYPE html>
-
-    <html>
-    <head>
-        <meta name="viewport" content="width=device-width" />
-        <title>Create</title>
-    </head>
-    <body>
-        <div>
-        </div>
-    </body>
-    </html>*@
