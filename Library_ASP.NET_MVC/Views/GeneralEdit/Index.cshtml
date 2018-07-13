@@ -12,13 +12,16 @@
 
 @using (Html.BeginForm())
 {
-    <div class="radioBtn">
-        @foreach (var item in ViewBag.ListItemToManage as List<string>)
-        {
-            @Html.RadioButton($"{item}", $"{item}",  new { id = $"Is{item}" } )
-            @Html.Label($"{item}")
-            <br />
-        }
-    </div>
-    <input type="submit" value="To Manager" />
+        <div class="radioBtn">
+            <fieldset>
+                @foreach (var item in ViewBag.ListItemToManage as List<string>)
+                {
+                    @Html.RadioButton($"{item}", $"{item}", new { id = $"{item}" })
+                    @Html.Label($"{item}")
+                    <br />
+                }
+             </fieldset>
+        </div>
+        <br />
+        <input type="submit" value="To Manager" />
 }

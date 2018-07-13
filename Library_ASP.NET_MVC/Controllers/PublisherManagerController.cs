@@ -34,7 +34,6 @@ namespace Library_ASP.NET_MVC.Controllers
                     return RedirectToAction("Index", new { controller = "PublisherManager" });
                 }
             }
-
             Publisher newPublisher1 = new Publisher();
             newPublisher1.Name = "Publisher`s name";
             return View(newPublisher1);
@@ -58,32 +57,25 @@ namespace Library_ASP.NET_MVC.Controllers
             if (formcollection["EditePublisher"] != null)
             {
                 if (Name == null)
-                {
                     Name = formcollection["Publisher"] as string;
-                }
+
                 TempData["Flag"] = "Edite";
                 TempData["From"] = "PublisherManager";
 
                 if (TempData["PublisherRepository"] == null)
-                {
                     return RedirectToAction("FromAuthorManager", new { controller = "Home" });
-                }
             }
 
             if (formcollection["DeletePublisher"] != null)
             {
                 if (Name == null)
-                {
                     Name = formcollection["Publisher"] as string;
-                }
 
                 TempData["Flag"] = "Delete";
                 TempData["From"] = "PublisherManager";
 
                 if (TempData["PublisherRepository"] == null)
-                {
                     return RedirectToAction("FromAuthorManager", new { controller = "Home" });
-                }
             }
             return View();
         }
@@ -103,7 +95,6 @@ namespace Library_ASP.NET_MVC.Controllers
                         if (((TempData["BookRepository"] as BookRepository).ListBooks[i].Publisher as Publisher).Name == Name)
                             (TempData["BookRepository"] as BookRepository).ListBooks[i].Publisher.Name = newPublish.Name;
                     }
-
                 }
                 index = -1;
                 Name = null;
@@ -112,15 +103,12 @@ namespace Library_ASP.NET_MVC.Controllers
 
             if (TempData["PublisherRepository"] != null)
             {
-
                 var existingUser = (TempData["PublisherRepository"] as PublisherRepository).Get(Name);
-
                 if (existingUser == null)
                 {
                     Name = null;
                     return RedirectToAction("Index");
                 }
-
                 for (int i = 0; i < ListPublishers.Count; i++)
                 {
                     if (ListPublishers[i].Name == existingUser.Name)
@@ -147,7 +135,6 @@ namespace Library_ASP.NET_MVC.Controllers
                     return RedirectToAction("FromAuthorManager", new { controller = "Home" });
                 }
             }
-
             return RedirectToAction("Index");
         }
 

@@ -29,20 +29,16 @@ namespace Library_ASP.NET_MVC.Controllers
                 publisherRepository.ListPublishers.Add(new Publisher { Name = "John Wiley & Sons" });
                 publisherRepository.ListPublishers.Add(new Publisher { Name = "Питер" });
             }
-
-
             if (authorRepository.ListAuthors.Count == 0)
             {
                 authorRepository.ListAuthors.Add(new Author { Name = "Jon Galloway", DateOfBirth = new DateTime(1972, 05, 12), DateOfDeath = null });
                 authorRepository.ListAuthors.Add(new Author { Name = "Brad Wilson", DateOfBirth = new DateTime(1971, 08, 18), DateOfDeath = null });
                 authorRepository.ListAuthors.Add(new Author { Name = "K. Scott Allen", DateOfBirth = new DateTime(1972, 05, 12), DateOfDeath = null });
                 authorRepository.ListAuthors.Add(new Author { Name = "David Matson", DateOfBirth = new DateTime(1972, 05, 12), DateOfDeath = null });
-
                 authorRepository.ListAuthors.Add(new Author { Name = "James Chambers", DateOfBirth = new DateTime(1971, 08, 18), DateOfDeath = null });
                 authorRepository.ListAuthors.Add(new Author { Name = "David Paquette", DateOfBirth = new DateTime(1972, 05, 12), DateOfDeath = null });
                 authorRepository.ListAuthors.Add(new Author { Name = "Simmon Timms", DateOfBirth = new DateTime(1972, 05, 12), DateOfDeath = null });
             }
-
             if (bookRepository.ListBooks.Count == 0)
             {
                 List<Author> temp = new List<Author>();
@@ -50,7 +46,6 @@ namespace Library_ASP.NET_MVC.Controllers
                 bookRepository.ListBooks.Add(new Book
                 {
                     Id = 0,
-                    //Authors = authorRepository.ListAuthors[0] as IEnumerable<Author>,
                     Authors = temp.ToList(),
                     ISBN = "978-1-118-79475-3",
                     PageCount = 620,
@@ -63,7 +58,6 @@ namespace Library_ASP.NET_MVC.Controllers
                 bookRepository.ListBooks.Add(new Book
                 {
                     Id = 1,
-                    //Authors = authorRepository.ListAuthors[1] as IEnumerable<Author>,
                     Authors = temp.ToList(),
                     ISBN = "978-5-496-03071-7",
                     PageCount = 464,
@@ -71,13 +65,11 @@ namespace Library_ASP.NET_MVC.Controllers
                     Publisher = publisherRepository.ListPublishers[1],
                     Name = "ASP.NET Core. Development: Building an application in four sprints."
                 });
-
                 temp.Clear();
                 temp.Add(authorRepository.ListAuthors[0]);
                 bookRepository.ListBooks.Add(new Book
                 {
                     Id = 2,
-                    //Authors = authorRepository.ListAuthors[0] as IEnumerable<Author>,
                     Authors = temp.ToList(),
                     ISBN = "953-1-118-79475-6",
                     PageCount = 720,

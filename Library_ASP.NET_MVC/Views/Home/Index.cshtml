@@ -4,8 +4,6 @@
 {
     @model IEnumerable<Author>
 }
-
-
 @{
     Layout = null;
 }
@@ -40,18 +38,6 @@
     }
 </style>
 
-
-
-@*<!DOCTYPE html>
-
-    <html>
-    <head>
-        <meta name="viewport" content="width=device-width" />
-        <title>Index</title>
-    </head>*@
-@*<body>*@
-
-@*@using (Html.BeginForm())*@
 @using (Html.BeginForm())
 {
     <div>
@@ -184,10 +170,5 @@
         <input type="submit" id="btnBooks" name="Books" value="Показать книги" />
         <input type="submit" id="btnBookInfo" name="BookInfo" value="Подробней о книге" />
         <input type="submit" id="btnManager" name="Manager" value="Перейти к редактированию" />
-
-
     </div>
-
 }
-@*</body>*@
-@*</html>*@

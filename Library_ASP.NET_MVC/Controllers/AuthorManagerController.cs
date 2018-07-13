@@ -61,7 +61,6 @@ namespace Library_ASP.NET_MVC.Controllers
         }
 
 
-
         [HttpPost]
         public ActionResult ManagerGeneral(FormCollection formcollection)
         {
@@ -70,38 +69,30 @@ namespace Library_ASP.NET_MVC.Controllers
             if (formcollection["EditeAuthor"] != null)
             {
                 if (Name == null)
-                {
                     Name = formcollection["Author"] as string;
-                }
+
                 TempData["Flag"] = "Edite";
                 TempData["From"] = "AuthorManager";
 
                 if (TempData["AuthorRepository"] == null)
-                {
                     return RedirectToAction("FromAuthorManager", new { controller = "Home" });
-                }
              }
 
             if (formcollection["DeleteAuthor"] != null)
             {
                 if (Name == null)
-                {
                     Name = formcollection["Author"] as string;
-                }
+
                 TempData["Flag"] = "Delete";
                 TempData["From"] = "AuthorManager";
 
                 if (TempData["AuthorRepository"] == null)
-                {
                     return RedirectToAction("FromAuthorManager", new { controller = "Home" });
-                }
             }
             return View();
         }
 
-
-
-
+        
         [HttpGet]
         public ActionResult Edite()
         {
@@ -141,9 +132,7 @@ namespace Library_ASP.NET_MVC.Controllers
             }
             return RedirectToAction("Index", new { controller = "AuthorManager" });
         }
-
-
-
+        
 
 
         [HttpPost]
@@ -185,15 +174,11 @@ namespace Library_ASP.NET_MVC.Controllers
                             ((TempData["BookRepository"] as BookRepository).ListBooks[i].Authors as List<Author>).RemoveAt(j);
                     }
                 }
-
                 TempData["ResForDel"] = res;
                 Name = null;
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index", new { controller = "AuthorManager" });
         }
-
-
-
     }
 }
