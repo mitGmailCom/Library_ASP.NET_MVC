@@ -91,8 +91,6 @@ namespace Library_ASP.NET_MVC.Controllers
             string selectetItemListBox = null;
             tempAuthors.Clear();
             tempBooksName.Clear();
-
-
             if (formcollection != null)
             {
                 if (formcollection["Books"] != null)
@@ -113,8 +111,6 @@ namespace Library_ASP.NET_MVC.Controllers
                         TempData["listBooks"] = selectList;
                     }
                 }
-
-
                 if (formcollection["BookInfo"] != null)
                 {
                     if (formcollection["listBoxBooks"] != null)
@@ -130,46 +126,11 @@ namespace Library_ASP.NET_MVC.Controllers
                         }
                     }
                 }
-
                 if (formcollection["Manager"] != null)
                 {
-                    List<Author> temp = new List<Author>();
-                    temp = authorRepository.ListAuthors.ToList();
-                    List<Publisher> temp1 = new List<Publisher>();
-                    temp1 = publisherRepository.ListPublishers.ToList();
-                    List<Book> temp2 = new List<Book>();
-                    temp2 = bookRepository.ListBooks.ToList();
-                    TempData["AuthorRepository"] = temp;
-                    TempData["PublisherRepository"] = temp1;
-                    TempData["BookRepository"] = temp2;
-
-                    TempData["AuthorRepository"] = authorRepository;
-                    TempData["PublisherRepository"] = publisherRepository;
-                    TempData["BookRepository"] = bookRepository;
                     return RedirectToAction("Index", new { controller = "GeneralEdit" });
                 }
             }
-
-            return View(authorRepository.GetAll());
-        }
-
-
-        public ActionResult FromAuthorManager()
-        {
-            TempData["AuthorRepository"] = authorRepository;
-            TempData["PublisherRepository"] = publisherRepository;
-            TempData["BookRepository"] = bookRepository;
-            if ((TempData["Flag"] as string) == "Create" )
-                return RedirectToAction("Create", TempData["From"] as string);
-            if ((TempData["Flag"] as string) == "Edite")
-                return RedirectToAction("Edite", TempData["From"] as string);
-            if ((TempData["Flag"] as string) == "Delete")
-                return RedirectToAction("Delete", TempData["From"] as string);
-            if ((TempData["Flag"] as string) == "CreateFormcollection")
-                return RedirectToAction("CreateFormcollection", TempData["From"] as string);
-            if ((TempData["Flag"] as string) == "EditeFormcollection")
-                return RedirectToAction("EditeFormcollection", TempData["From"] as string);
-
             return View(authorRepository.GetAll());
         }
     }

@@ -16,7 +16,7 @@
             <fieldset>
                 @foreach (var item in ViewBag.ListItemToManage as List<string>)
                 {
-                    @Html.RadioButton($"{item}", $"{item}", new { id = $"{item}" })
+                    @Html.RadioButton($"radioBtnName", $"{item}", new { id = $"{item}" })
                     @Html.Label($"{item}")
                     <br />
                 }

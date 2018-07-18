@@ -9,7 +9,6 @@ namespace Library_ASP.NET_MVC.Controllers
 {
     public class AuthorManagerController : Controller
     {
-        private static List<Author> ListAuthors = new List<Author>();
         private static Author newAuth = new Author();
         private static string Name { get; set; } = null;
         private static int index = -1;
@@ -20,29 +19,16 @@ namespace Library_ASP.NET_MVC.Controllers
         }
 
 
-        // GET: AuthorManager
         [HttpGet]
         public ActionResult Index()
         {
-            ListAuthors.Clear();
-            ListAuthors = (TempData["AuthorRepository"] as AuthorRepository).ListAuthors.ToList();
-            return View(ListAuthors);
+            return View(AuthorRepository.Instance.ListAuthors);
         }
 
 
         [HttpGet]
         public ActionResult Create()
         {
-            if (newAuth != null)
-            {
-                if (TempData["AuthorRepository"] != null)
-                {
-                    (TempData["AuthorRepository"] as AuthorRepository).Create(newAuth);
-                    newAuth = null;
-                    return RedirectToAction("Index", new { controller = "AuthorManager" });
-                }
-            }
-
             Author newAuthor1 = new Author();
             newAuthor1.Name = "Authors name";
             newAuthor1.DateOfBirth = new DateTime();
@@ -55,9 +41,13 @@ namespace Library_ASP.NET_MVC.Controllers
         public ActionResult Create(Author _auth)
         {
             newAuth = _auth;
-            TempData["Flag"] = "Create";
-            TempData["From"] = "AuthorManager";
-            return RedirectToAction("FromAuthorManager", new { controller = "Home" });
+            if (newAuth != null)
+            {
+                AuthorRepository.Instance.Create(newAuth);
+                newAuth = null;
+                return RedirectToAction("Index", new { controller = "AuthorManager" });
+            }
+            return RedirectToAction("Index", new { controller = "AuthorManager" });
         }
 
 
@@ -70,69 +60,36 @@ namespace Library_ASP.NET_MVC.Controllers
             {
                 if (Name == null)
                     Name = formcollection["Author"] as string;
-
-                TempData["Flag"] = "Edite";
-                TempData["From"] = "AuthorManager";
-
-                if (TempData["AuthorRepository"] == null)
-                    return RedirectToAction("FromAuthorManager", new { controller = "Home" });
-             }
-
+                return RedirectToAction("Edite");
+            }
             if (formcollection["DeleteAuthor"] != null)
             {
                 if (Name == null)
                     Name = formcollection["Author"] as string;
-
-                TempData["Flag"] = "Delete";
-                TempData["From"] = "AuthorManager";
-
-                if (TempData["AuthorRepository"] == null)
-                    return RedirectToAction("FromAuthorManager", new { controller = "Home" });
+                return RedirectToAction("Delete");
             }
             return View();
         }
 
-        
+
         [HttpGet]
         public ActionResult Edite()
         {
-            if (newAuth != null)
+            var existingUser = AuthorRepository.Instance.Get(Name);
+            if (existingUser == null)
             {
-                (TempData["AuthorRepository"] as AuthorRepository).Edite(newAuth, index);
-                for (int i = 0; i < (TempData["BookRepository"] as BookRepository).ListBooks.Count; i++)
-                {
-                    for (int j = 0; j < ((TempData["BookRepository"] as BookRepository).ListBooks[i].Authors as List<Author>).Count; j++)
-                    {
-                        if (((TempData["BookRepository"] as BookRepository).ListBooks[i].Authors as List<Author>).Count > 0)
-                        {
-                            if (((TempData["BookRepository"] as BookRepository).ListBooks[i].Authors as List<Author>)[j].Name == Name)
-                                ((TempData["BookRepository"] as BookRepository).ListBooks[i].Authors as List<Author>)[j].Name = newAuth.Name;
-                        }
-                    }
-                }
-                index = -1;
                 Name = null;
                 return RedirectToAction("Index");
             }
-
-            if (TempData["AuthorRepository"] != null)
+            for (int i = 0; i < AuthorRepository.Instance.ListAuthors.Count; i++)
             {
-                var existingUser = (TempData["AuthorRepository"] as AuthorRepository).Get(Name);
-                if (existingUser == null)
-                {
-                    Name = null;
-                    return RedirectToAction("Index");
-                }
-                for (int i = 0; i < ListAuthors.Count; i++)
-                {
-                    if (ListAuthors[i].Name == existingUser.Name)
-                        index = i;
-                }
-                return View(existingUser);
+                if (AuthorRepository.Instance.ListAuthors[i].Name == existingUser.Name)
+                    index = i;
             }
-            return RedirectToAction("Index", new { controller = "AuthorManager" });
+            return View(existingUser);
         }
-        
+
+
 
 
         [HttpPost]
@@ -150,9 +107,20 @@ namespace Library_ASP.NET_MVC.Controllers
                     if (isDateTime)
                         newAuth.DateOfDeath = Convert.ToDateTime((formcollection["DateOfDeath"]) as string);
 
-                    TempData["Flag"] = "Edite";
-                    TempData["From"] = "AuthorManager";
-                    return RedirectToAction("FromAuthorManager", new { controller = "Home" });
+                    AuthorRepository.Instance.Edite(newAuth, index);
+                    for (int i = 0; i < BookRepository.Instance.ListBooks.Count; i++)
+                    {
+                        for (int j = 0; j < (BookRepository.Instance.ListBooks[i].Authors as List<Author>).Count; j++)
+                        {
+                            if ((BookRepository.Instance.ListBooks[i].Authors as List<Author>).Count > 0)
+                            {
+                                if ((BookRepository.Instance.ListBooks[i].Authors as List<Author>)[j].Name == Name)
+                                    (BookRepository.Instance.ListBooks[i].Authors as List<Author>)[j].Name = newAuth.Name;
+                            }
+                        }
+                    }
+                    index = -1;
+                    Name = null;
                 }
             }
             return RedirectToAction("Index");
@@ -165,13 +133,13 @@ namespace Library_ASP.NET_MVC.Controllers
         {
             if (Name != null)
             {
-                bool res = (TempData["AuthorRepository"] as AuthorRepository).Delete(Name);
-                for (int i = 0; i < (TempData["BookRepository"] as BookRepository).ListBooks.Count; i++)
+                bool res = AuthorRepository.Instance.Delete(Name);
+                for (int i = 0; i < BookRepository.Instance.ListBooks.Count; i++)
                 {
-                    for (int j = 0; j < ((TempData["BookRepository"] as BookRepository).ListBooks[i].Authors as List<Author>).Count ; j++)
+                    for (int j = 0; j < (BookRepository.Instance.ListBooks[i].Authors as List<Author>).Count; j++)
                     {
-                        if (((TempData["BookRepository"] as BookRepository).ListBooks[i].Authors as List<Author>)[j].Name == Name)
-                            ((TempData["BookRepository"] as BookRepository).ListBooks[i].Authors as List<Author>).RemoveAt(j);
+                        if ((BookRepository.Instance.ListBooks[i].Authors as List<Author>)[j].Name == Name)
+                            (BookRepository.Instance.ListBooks[i].Authors as List<Author>).RemoveAt(j);
                     }
                 }
                 TempData["ResForDel"] = res;
