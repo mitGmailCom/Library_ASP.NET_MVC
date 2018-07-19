@@ -13,7 +13,8 @@ namespace Library_ASP.NET_MVC.Controllers
         private static string Name { get; set; } = null;
         private static int index = -1;
 
-        // GET: Publisher
+
+
         public ActionResult Index()
         {
             return View(PublisherRepository.Instance.ListPublishers);

@@ -33,7 +33,7 @@
         </td>
         <td>
             <div class="editor-field">
-                @Html.DropDownListFor(u => u.Publisher, ViewBag.Publisher as List<SelectListItem>)
+                @Html.DropDownListFor(u => u.Publisher.Name, ViewBag.Publisher as List<SelectListItem>)
             </div>
         </td>
     </tr>
@@ -48,7 +48,7 @@
         <td>
             <div class="editor-field">
                 @*@Html.ListBoxFor(u => u.Authors, (ViewBag.Authors as MultiSelectList) )*@
-                @Html.ListBoxFor(u => u.Authors, new MultiSelectList(ViewBag.Authors as List<SelectListItem>, "Value", "Text", ViewBag.Selected as string[]))
+                @Html.ListBoxFor(u => u.SelectedItems, new MultiSelectList(ViewBag.Authors as List<SelectListItem>, "Value", "Text", ViewBag.Selected as string[]))
             </div>
         </td>
     </tr>

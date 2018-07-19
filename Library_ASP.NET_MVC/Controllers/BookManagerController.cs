@@ -17,13 +17,7 @@ namespace Library_ASP.NET_MVC.Controllers
         private static FormCollection Copyformcollection = new FormCollection();
         private static bool ChekFormcollection = false;
 
-        public ActionResult ToHome()
-        {
-            return RedirectToAction("FromAuthorManager", "Home");
-        }
 
-
-        // GET: AuthorManager
         [HttpGet]
         public ActionResult Index()
         {
@@ -77,11 +71,6 @@ namespace Library_ASP.NET_MVC.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection formcollection)
         {
-            if (CheckFormcollection(formcollection))
-            {
-                ChekFormcollection = false;
-                return RedirectToAction("Index");
-            }
             Publisher tempPublisher = new Publisher();
             List<Author> TempListAuthors = new List<Author>();
             string MasAuthors = formcollection["Authors"] as string;
@@ -220,7 +209,8 @@ namespace Library_ASP.NET_MVC.Controllers
                         }
                         if (isSelected)
                         {
-                            selecList.Add(i.ToString());
+                            //selecList.Add(i.ToString());
+                            selecList.Add(AuthorRepository.Instance.ListAuthors[i].Name.ToString());
                             tempMList.Add(new SelectListItem
                             {
                                 Text = AuthorRepository.Instance.ListAuthors[i].Name,
@@ -236,6 +226,7 @@ namespace Library_ASP.NET_MVC.Controllers
                 //ViewBag.Authors = new MultiSelectList(tempMList, "Value", "Text", defaultSelected) ;
                 ViewBag.Authors = tempMList;
                 ViewBag.Selected = defaultSelected;
+                existingBook.SelectedItems = defaultSelected;
             }
         }
 
@@ -266,7 +257,9 @@ namespace Library_ASP.NET_MVC.Controllers
 
         private bool CheckFormcollection(FormCollection formcollection)
         {
-            if (formcollection["Authors"] == null)
+            //if (formcollection["Authors"] == null)
+            //    ChekFormcollection = true;
+            if (formcollection["SelectedItems"] == null)
                 ChekFormcollection = true;
             //if (formcollection["Id"] == null)
             //    ChekFormcollection = true;
@@ -278,7 +271,7 @@ namespace Library_ASP.NET_MVC.Controllers
                 ChekFormcollection = true;
             if (formcollection["PublishDate"] == null)
                 ChekFormcollection = true;
-            if (formcollection["Publisher"] == null)
+            if (formcollection["Publisher.Name"] == null)
                 ChekFormcollection = true;
 
             return ChekFormcollection;
@@ -294,7 +287,6 @@ namespace Library_ASP.NET_MVC.Controllers
                 ChekFormcollection = false;
                 return RedirectToAction("Index");
             }
-
             if (newBook == null)
             {
                 if (formcollection != null)
@@ -302,11 +294,11 @@ namespace Library_ASP.NET_MVC.Controllers
                     newBook = new Book();
                     Publisher tempPublisher = new Publisher();
                     List<Author> TempListAuthors = new List<Author>();
-                    string MasAuthors = formcollection["Authors"] as string;
+                    string MasAuthors = formcollection["SelectedItems"] as string;
                     string[] separators = { "," };
                     string[] ResMasAuthors = MasAuthors.Split(separators, StringSplitOptions.RemoveEmptyEntries);
                     newBook.Name = formcollection["Name"];
-                    string selectedPublisher = formcollection["Publisher"];
+                    string selectedPublisher = formcollection["Publisher.Name"];
 
                     for (int i = 0; i < PublisherRepository.Instance.ListPublishers.Count; i++)
                     {
@@ -336,6 +328,7 @@ namespace Library_ASP.NET_MVC.Controllers
                     bool isIntID = Int32.TryParse(formcollection["Id"], out resId);
                     if (isIntID)
                         newBook.Id = resId;
+                    newBook.SelectedItems = ResMasAuthors;
 
                     BookRepository.Instance.Edite(newBook, index);
                     index = -1;

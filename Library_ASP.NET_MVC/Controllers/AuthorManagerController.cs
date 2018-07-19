@@ -13,10 +13,6 @@ namespace Library_ASP.NET_MVC.Controllers
         private static string Name { get; set; } = null;
         private static int index = -1;
 
-        public ActionResult ToHome()
-        {
-            return RedirectToAction("FromAuthorManager", "Home");
-        }
 
 
         [HttpGet]

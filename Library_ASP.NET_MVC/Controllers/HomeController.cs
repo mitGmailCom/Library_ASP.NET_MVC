@@ -51,7 +51,8 @@ namespace Library_ASP.NET_MVC.Controllers
                     PageCount = 620,
                     PublishDate = new DateTime(2014, 01, 01),
                     Publisher = publisherRepository.ListPublishers[0],
-                    Name = "Professional ASP.NET MVC 5"
+                    Name = "Professional ASP.NET MVC 5",
+                    SelectedItems = new string[] { AuthorRepository.Instance.ListAuthors[0].Name, AuthorRepository.Instance.ListAuthors[1].Name, AuthorRepository.Instance.ListAuthors[2].Name, AuthorRepository.Instance.ListAuthors[3].Name }
                 });
                 temp.Clear();
                 temp.AddRange(authorRepository.ListAuthors.GetRange(4, 3));
@@ -63,7 +64,8 @@ namespace Library_ASP.NET_MVC.Controllers
                     PageCount = 464,
                     PublishDate = new DateTime(2018, 01, 01),
                     Publisher = publisherRepository.ListPublishers[1],
-                    Name = "ASP.NET Core. Development: Building an application in four sprints."
+                    Name = "ASP.NET Core. Development: Building an application in four sprints.",
+                    SelectedItems = new string[] { AuthorRepository.Instance.ListAuthors[4].Name, AuthorRepository.Instance.ListAuthors[5].Name, AuthorRepository.Instance.ListAuthors[6].Name }
                 });
                 temp.Clear();
                 temp.Add(authorRepository.ListAuthors[0]);
@@ -75,7 +77,8 @@ namespace Library_ASP.NET_MVC.Controllers
                     PageCount = 720,
                     PublishDate = new DateTime(2017, 01, 01),
                     Publisher = publisherRepository.ListPublishers[0],
-                    Name = "ASP.NET MVC 5 Core"
+                    Name = "ASP.NET MVC 5 Core",
+                    SelectedItems = new string[] { AuthorRepository.Instance.ListAuthors[0].Name }
                 });
             }
             ViewBag.AllAuthors = authorRepository.GetAll();

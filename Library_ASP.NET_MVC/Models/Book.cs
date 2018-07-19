@@ -14,5 +14,6 @@ namespace Library_ASP.NET_MVC.Models
         public DateTime PublishDate { get; set; }
         public int PageCount { get; set; }
         public string ISBN { get; set; }
+        public string[] SelectedItems { get; set; }
     }
 }
